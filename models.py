@@ -8,6 +8,7 @@
     - grades      (grades.id, grade, grade_date,
                    student_id -> students.id, subject_id -> subjects.id)
 """
+
 from datetime import datetime
 
 from sqlalchemy import ForeignKey, String, Integer, DateTime, func

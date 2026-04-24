@@ -9,6 +9,7 @@
 Жодних секретів у коді та VCS — справжні значення лежать у ``.env``
 (в ``.gitignore``), шаблон — у ``.env.example``.
 """
+
 from __future__ import annotations
 
 import os
@@ -39,10 +40,7 @@ def _build_url() -> str:
             "та пропишіть справжні значення."
         )
 
-    return (
-        f"postgresql+psycopg2://{user}:{quote_plus(password)}"
-        f"@{host}:{port}/{db}"
-    )
+    return f"postgresql+psycopg2://{user}:{quote_plus(password)}@{host}:{port}/{db}"
 
 
 url_to_db = _build_url()

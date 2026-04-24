@@ -18,6 +18,7 @@
     select_11 — середній бал, який певний викладач ставить певному студентові.
     select_12 — оцінки студентів у певній групі з певного предмета на останньому занятті.
 """
+
 from __future__ import annotations
 
 from sqlalchemy import desc, func, select
@@ -103,9 +104,7 @@ def select_6(session, group_name: str) -> list[str]:
     return [row[0] for row in session.execute(stmt).all()]
 
 
-def select_7(
-    session, group_name: str, subject_name: str
-) -> list[tuple[str, int]]:
+def select_7(session, group_name: str, subject_name: str) -> list[tuple[str, int]]:
     """Знайти оцінки студентів у окремій групі з певного предмета."""
     stmt = (
         select(Student.fullname, Grade.grade, Grade.grade_date)
@@ -142,9 +141,7 @@ def select_9(session, student_fullname: str) -> list[str]:
     return [row[0] for row in session.execute(stmt).all()]
 
 
-def select_10(
-    session, student_fullname: str, teacher_fullname: str
-) -> list[str]:
+def select_10(session, student_fullname: str, teacher_fullname: str) -> list[str]:
     """Список курсів, які певному студенту читає певний викладач."""
     stmt = (
         select(Subject.name)
@@ -164,9 +161,7 @@ def select_10(
 # ----- Додаткові запити -----------------------------------------------------
 
 
-def select_11(
-    session, student_fullname: str, teacher_fullname: str
-) -> float | None:
+def select_11(session, student_fullname: str, teacher_fullname: str) -> float | None:
     """Середній бал, який певний викладач ставить певному студентові."""
     stmt = (
         select(func.round(func.avg(Grade.grade), 2))
@@ -181,9 +176,7 @@ def select_11(
     return session.execute(stmt).scalar()
 
 
-def select_12(
-    session, group_name: str, subject_name: str
-) -> list[tuple[str, int]]:
+def select_12(session, group_name: str, subject_name: str) -> list[tuple[str, int]]:
     """Оцінки студентів у певній групі з певного предмета на останньому занятті.
 
     «Останнє заняття» визначаємо як максимальну дату ``grade_date`` серед
@@ -231,9 +224,7 @@ if __name__ == "__main__":
         for row in select_1(session):
             print(f"  {row.fullname:30s} {row.avg_grade}")
 
-        print(
-            f"\nselect_2 — найкращий студент з предмета {subject.name!r}:"
-        )
+        print(f"\nselect_2 — найкращий студент з предмета {subject.name!r}:")
         row = select_2(session, subject.name)
         print(f"  {row.fullname} — {row.avg_grade}")
 
@@ -260,9 +251,7 @@ if __name__ == "__main__":
         for row in select_7(session, group.name, subject.name)[:5]:
             print(f"  {row[0]:30s} {row[1]}  {row[2]:%Y-%m-%d}")
 
-        print(
-            f"\nselect_8 — середній бал викладача {teacher.fullname!r}:"
-        )
+        print(f"\nselect_8 — середній бал викладача {teacher.fullname!r}:")
         print(f"  {select_8(session, teacher.fullname)}")
 
         print(f"\nselect_9 — курси студента {student.fullname!r}:")

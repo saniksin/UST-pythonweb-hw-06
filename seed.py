@@ -9,6 +9,7 @@
 
 Для запису використовуємо механізм сесій SQLAlchemy.
 """
+
 from __future__ import annotations
 
 import random
@@ -87,9 +88,7 @@ def seed_students(session, groups: list[Group]) -> list[Student]:
     return students
 
 
-def seed_grades(
-    session, students: list[Student], subjects: list[Subject]
-) -> None:
+def seed_grades(session, students: list[Student], subjects: list[Subject]) -> None:
     start_date = datetime(2026, 1, 15)
     end_date = datetime(2026, 4, 24)
     span_days = (end_date - start_date).days

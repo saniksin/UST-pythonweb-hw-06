@@ -21,6 +21,7 @@
     # Видалення
     uv run python main.py -a remove -m Teacher --id 3
 """
+
 from __future__ import annotations
 
 import argparse
@@ -41,6 +42,7 @@ MODEL_MAP: dict[str, type[Base]] = {
 
 # --- Рендеринг ------------------------------------------------------------
 
+
 def _render(obj) -> str:
     if isinstance(obj, Teacher):
         return f"[{obj.id}] Teacher: {obj.fullname}"
@@ -60,6 +62,7 @@ def _render(obj) -> str:
 
 
 # --- CRUD ------------------------------------------------------------------
+
 
 def _build_kwargs(model: type[Base], args: argparse.Namespace) -> dict:
     """Побудувати словник полів з аргументів CLI відповідно до моделі."""
@@ -166,37 +169,35 @@ ACTIONS = {
 
 # --- argparse --------------------------------------------------------------
 
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         description="CLI для CRUD над Teacher/Group/Subject/Student/Grade"
     )
     parser.add_argument(
-        "-a", "--action", required=True, choices=ACTIONS.keys(),
+        "-a",
+        "--action",
+        required=True,
+        choices=ACTIONS.keys(),
         help="CRUD операція: create / list / get / update / remove",
     )
     parser.add_argument(
-        "-m", "--model", required=True, choices=MODEL_MAP.keys(),
+        "-m",
+        "--model",
+        required=True,
+        choices=MODEL_MAP.keys(),
         help="модель, над якою виконується операція",
     )
     parser.add_argument("--id", type=int, help="первинний ключ запису")
     parser.add_argument("-n", "--name", help="ім'я / ПІБ / назва")
+    parser.add_argument("-g", "--group", type=int, help="group_id (для Student)")
+    parser.add_argument("-t", "--teacher", type=int, help="teacher_id (для Subject)")
+    parser.add_argument("--student", type=int, help="student_id (для Grade)")
+    parser.add_argument("--subject", type=int, help="subject_id (для Grade)")
+    parser.add_argument("--grade", type=int, help="значення оцінки (для Grade)")
     parser.add_argument(
-        "-g", "--group", type=int, help="group_id (для Student)"
-    )
-    parser.add_argument(
-        "-t", "--teacher", type=int, help="teacher_id (для Subject)"
-    )
-    parser.add_argument(
-        "--student", type=int, help="student_id (для Grade)"
-    )
-    parser.add_argument(
-        "--subject", type=int, help="subject_id (для Grade)"
-    )
-    parser.add_argument(
-        "--grade", type=int, help="значення оцінки (для Grade)"
-    )
-    parser.add_argument(
-        "-d", "--date",
+        "-d",
+        "--date",
         help="дата оцінки в ISO (для Grade). Напр. 2026-04-24T10:30",
     )
     return parser
